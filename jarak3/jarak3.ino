@@ -1,5 +1,6 @@
-#include <LiquidCrystal_I2C.h>
 
+#include <LiquidCrystal_I2C.h>
+//
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 const int trigPin = 5;
 const int echoPin = 6;
@@ -12,21 +13,21 @@ int distance;
 
 void setup() {
   // put your setup code here, to run once:
-  lcd.backlight();
+//lcd.backlight();
 lcd.init();
 pinMode(led, OUTPUT);
-   pinMode(BUTTON_PIN, INPUT);
+pinMode(BUTTON_PIN, INPUT);
 pinMode(trigPin, OUTPUT);
 pinMode(echoPin, INPUT);
 pinMode(piezo, OUTPUT);
-
+ Serial.begin(9600);
 }
 
 void loop() {
 buttonState = digitalRead(BUTTON_PIN);
   Serial.println(buttonState);
 
-  if(buttonState == LOW){
+  if(buttonState == HIGH){
     digitalWrite(led, HIGH);
   }else{
     digitalWrite(led,LOW);
@@ -41,21 +42,21 @@ digitalWrite(trigPin, LOW);
 
 duration = pulseIn(echoPin, HIGH);
   distance= (duration*0.034)/2; // memperkiraan jarak
-if(distance >=6 || distance <=0){
+if(distance >=4 || distance <=0){
   lcd.setCursor (0,0);
-  lcd.println("Letakan Telur");
+  lcd.println("Letakan Telurnya");
 }
 else{
   lcd.setCursor (0,0);
   lcd.println("Telur Terdeteksi");
 
 }
-if (distance <=5
+if (distance <=4
 ){
   digitalWrite(piezo,HIGH);
-  delay(20);
+  delay(10);
   digitalWrite(piezo,LOW);
-  delay(100);
+  delay(1500);
 }
 
 else{
